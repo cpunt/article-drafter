@@ -1,0 +1,30 @@
+.invalid-feedback {
+  visibility: hidden;
+  display: block;
+  height: 20px;
+}
+
+.form-signin .btn {
+  font-size: 80%;
+  border-radius: 5rem;
+  letter-spacing: .1rem;
+  font-weight: bold;
+  padding: 1rem;
+  transition: all 0.2s;
+}
+
+.btn-google {
+  color: white;
+  background-color: #ea4335;
+}
+
+.btn-facebook {
+  color: white;
+  background-color: #3b5998;
+}
+
+#mainDiv {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}

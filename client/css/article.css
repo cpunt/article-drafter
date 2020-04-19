@@ -1,0 +1,38 @@
+.info {
+  font-size: 12px;
+}
+
+.articleText {
+  min-height: 100px;
+  max-height: 150px;
+  overflow: hidden;
+}
+
+.fadeout {
+  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+}
+
+.tag {
+  margin: 8px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  color: #007bff;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.optionsBar {
+  height: 20px;
+}
+
+#buttonDiv {
+  height: 40px;
+}

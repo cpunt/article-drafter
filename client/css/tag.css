@@ -1,0 +1,59 @@
+.tag {
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+.tag, .cross, .tagsHeader {
+  display: inline-block;
+}
+
+.badge {
+  margin-bottom: 8px;
+}
+
+.arrow {
+  border: solid black;
+  border-width: 0 4px 4px 0;
+  padding: 3px;
+  margin-top: 14px;
+  margin-right: 10px;
+  float: right;
+  cursor: pointer;
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.add-tags {
+  color: #007bff;
+}
+
+.add-tags:hover {
+  color: #007bff;
+}
+
+#tagsDiv {
+  margin-top: 10px;
+  min-height: 45px;
+}
+
+#tagFeedbackDiv {
+  visibility: hidden;
+  display: block;
+  height: 20px;
+}
+
+#collapse {
+  display: none;
+}
+
+#headingOne {
+  height: 63px;
+}
