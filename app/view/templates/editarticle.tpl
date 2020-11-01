@@ -49,8 +49,8 @@
           {% include 'tagInput.tpl' %}
 
           <div id='buttonDiv'>
-            <button class='btn btn-primary float-right' onclick="update(false, 'updateArticle')">Update</button>
-            <button class='btn btn-primary float-right mr-3' onclick='cancel(false)'>Cancel</button>
+            <button class='btn btn-primary float-right' onclick="update(0, 'updateArticle')">Update</button>
+            <button class='btn btn-primary float-right mr-3' onclick='cancel(0)'>Cancel</button>
           </div>
           <hr>
         </div>

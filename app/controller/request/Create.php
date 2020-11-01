@@ -2,7 +2,6 @@
 namespace controller\request;
 
 class Create {
-
   public function __construct($requestValue) {
     $userModel = new \model\UserModel();
 
@@ -15,8 +14,7 @@ class Create {
       $iduser = $userModel->userLoggedIn();
       $createArticleModel = new \model\CreateArticleModel($title, $text, $tags, $draft, $iduser);
 
-      // Check draft is valid
-      if($createArticleModel->isArticleCreationValid() || $draft) {
+      if($draft || $createArticleModel->isArticleCreationValid()) {
         $res['created'] = $createArticleModel->createArticle();
         $res['draft'] = $draft;
       } else {
@@ -32,5 +30,4 @@ class Create {
       $jsonEncodeView->outputRes($res);
     }
   }
-
 }

@@ -53,9 +53,9 @@
             {% include 'tagInput.tpl' %}
 
             <div>
-              <button type='button' class='btn btn-primary text-center float-right' onclick="update(true, 'updateArticle')">Create Article</button>
-              <button type='button' class='btn btn-primary text-center float-right mr-3' onclick="update(true, 'updateDraft')">Save As Draft</button>
-              <button type='button' class='btn btn-primary text-center float-right mr-3' onclick='cancel(true)'>Cancel</button>
+              <button type='button' class='btn btn-primary text-center float-right' onclick="update(1, 'updateArticle')">Create Article</button>
+              <button type='button' class='btn btn-primary text-center float-right mr-3' onclick="update(1, 'updateDraft')">Update Draft</button>
+              <button type='button' class='btn btn-primary text-center float-right mr-3' onclick='cancel(1)'>Cancel</button>
             </div>
           </div>
         </div>

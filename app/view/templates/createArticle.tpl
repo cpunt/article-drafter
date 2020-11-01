@@ -54,8 +54,8 @@
 
             <div class='text-center'>
               <button type='button' class='btn btn-primary text-center mx-2' onclick='cancel()'>Cancel</button>
-              <button type='button' class='btn btn-primary text-center mx-2' onclick='create(true)'>Save As Draft</button>
-              <button type='button' class='btn btn-primary text-center mx-2' onclick='create(false)'>Create Article</button>
+              <button type='button' class='btn btn-primary text-center mx-2' onclick='create(1)'>Save As Draft</button>
+              <button type='button' class='btn btn-primary text-center mx-2' onclick='create(0)'>Create Article</button>
             </div>
           </div>
         </div>

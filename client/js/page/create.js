@@ -7,6 +7,7 @@ function create(draft) {
   const articleText = simplemde.value();
   const tag = document.getElementsByClassName('tag');
   const articleTags = [];
+  let titleValid, textValid, tagsValid;
 
   if(tag) {
     for(let i = 0; i < tag.length; i++) {
@@ -22,9 +23,9 @@ function create(draft) {
   };
 
   if(!draft) {
-    const titleValid = validateTitle(articleTitle);
-    const textValid = validateText(articleText);
-    const tagsValid = validateTags(articleTags, 5);
+    titleValid = validateTitle(articleTitle);
+    textValid = validateText(articleText);
+    tagsValid = validateTags(articleTags, 5);
   }
 
   if(draft || (titleValid && textValid && tagsValid)) {
