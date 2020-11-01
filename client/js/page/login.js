@@ -1,37 +1,33 @@
-function login() {
+async function login() {
   const username = document.getElementById('loginUsername').value;
   const password = document.getElementById('loginPw').value;
   const user = {
     username: username,
     password: password
   };
+  const request = await fetch('/articles/index.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: `loginUser=${JSON.stringify(user)}`
+  });
+  const response = JSON.parse(await request.text());
 
-  const xmlhttp = new XMLHttpRequest();
-  xmlhttp.open('POST', '/articles/index.php', true);
-  xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-  xmlhttp.onreadystatechange = function() {
-    if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      const res = JSON.parse(xmlhttp.responseText);
-
-      if(!res['valid']) {
-        loginDisplayErrors();
-      } else {
-        window.location.href = '/articles/home';
-      }
-    }
+  if(!response['valid']) {
+    loginDisplayErrors();
+  } else {
+    window.location.href = '/articles/home';
   }
-
-  xmlhttp.send('loginUser=' + JSON.stringify(user));
 }
 
-function loginGoogle() {
-  console.log('Login Google');
-}
-
-function loginFacebook() {
-  console.log('Login Facebook');
-}
+// function loginGoogle() {
+//   console.log('Login Google');
+// }
+//
+// function loginFacebook() {
+//   console.log('Login Facebook');
+// }
 
 function loginDisplayErrors() {
   const username = document.getElementById('loginUsername');

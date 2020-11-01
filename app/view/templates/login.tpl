@@ -42,10 +42,10 @@
 
           <hr class='my-4'>
 
-          <div>
+          <!-- <div>
             <button class='btn btn-lg btn-google btn-block text-uppercase mb-4' type='submit' onclick='loginGoogle()'><i class='fab fa-google mr-2'></i> Log in with Google</button>
             <button class='btn btn-lg btn-facebook btn-block text-uppercase mb-4' type='submit' onclick='loginFacebook()'><i class='fab fa-facebook-f mr-2'></i> Log in with Facebook</button>
-          </div>
+          </div> -->
 
         </div>
       </div>
