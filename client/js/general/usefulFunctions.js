@@ -1,9 +1,3 @@
-function capitalizeFirstLetter(string) {
-  string = string.toLowerCase();
-
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 function getRef() {
   const urlArr = window.location.pathname.split('/');
   const index = urlArr.indexOf('articles');

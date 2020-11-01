@@ -18,7 +18,7 @@ function addTag() {
   const tagsDiv = document.getElementById('tagsDiv');
   const headingOne = document.getElementById('headingOne');
   const articleTags = document.getElementById('articleTags');
-  const tagName = capitalizeFirstLetter(articleTags.value).trim();
+  const tagName = articleTags.value.trim();
 
   reset();
 
