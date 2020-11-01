@@ -1,37 +1,28 @@
 window.onload = function() {
-  loadArticle();
-}
-
-function loadArticle() {
   const ref = getRef();
 
-  const request = {
-    type: 'view',
-    ref: ref
-  };
-
-  if(!ref) {
+  if (!ref) {
     window.location.href = '../';
   } else {
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.open('GET', `/articles/index.php?load=${JSON.stringify(request)}`, true);
+    loadArticle({
+      type: 'view',
+      ref: ref
+    });
+  }
+}
 
-    xmlhttp.onreadystatechange = function() {
-      if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        const res = JSON.parse(xmlhttp.responseText);
-        const articleDiv = document.getElementById('articleDiv');
+async function loadArticle(data) {
+  const request = await fetch(`/articles/index.php?load=${JSON.stringify(data)}`, {
+    method: 'GET'
+  });
+  const response = JSON.parse(await request.text());
 
-        if(!res['valid']) {
-          window.location.href = '/articles/home/page/1';
-        } else {
-          const displayArticle = new DisplayArticle();
-          articleDiv.innerHTML = displayArticle.getArticleHTML(res['item'], 'article');
-
-          hljs.initHighlighting();
-        }
-      }
-    }
-
-    xmlhttp.send();
+  if(!response['valid']) {
+    window.location.href = '/articles/home/page/1';
+  } else {
+    const articleDiv = document.getElementById('articleDiv');
+    const displayArticle = new DisplayArticle();
+    articleDiv.innerHTML = displayArticle.getArticleHTML(response['item'], 'article');
+    hljs.initHighlighting();
   }
 }
