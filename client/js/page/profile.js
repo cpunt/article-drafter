@@ -4,44 +4,24 @@ window.onload = function() {
   if(!request['page']) {
     window.location = '/articles/home/page/1';
   } else {
+    document.title = `Profile- ${request['user']}`;
     observe();
     load(request);
   }
 }
 
-function load(request) {
-  const xmlhttp = new XMLHttpRequest();
-  xmlhttp.open('GET', `/articles/index.php/?loadPage=${JSON.stringify(request)}`, true);
+async function load(data) {
+  const request = await fetch(`/articles/index.php/?loadPage=${JSON.stringify(data)}`, {
+    method: 'GET'
+  });
+  const response = JSON.parse(await request.text());
+  const profile = getUser('profile').toLowerCase();
+  window.history.pushState('page', '', `/articles/profile/${profile}/page/${response['pagination']['page']}`);
 
-  xmlhttp.onreadystatechange = function() {
-    if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      const res = JSON.parse(xmlhttp.responseText);
-      const pagination = res['pagination'];
-      const articles = res['items'];
-      const displayArticle = new DisplayArticle();
-      const profile = getUser('profile');
-      const url = `/articles/profile/${profile.toLowerCase()}/page/${pagination['page']}`
-      window.history.pushState('page', '', url)
-
-      if(res['validRequest']) {
-        if(articles.length > 0) {
-          displayArticles(articles);
-        } else {
-          const editTag = document.getElementsByClassName('editTag');
-          if(editTag.length > 0) {
-            articlesDiv.innerHTML = displayArticle.getNullHTML('tags');
-          } else {
-            articlesDiv.innerHTML = displayArticle.getNullHTML('user');
-          }
-        }
-
-      } else {
-        articlesDiv.innerHTML = displayArticle.getNullHTML('invalidUser');
-      }
-
-      displayPaginationDiv(pagination);
-    }
+  if(!response['validRequest']) {
+    console.log('Invalid user');
+  } else {
+    displayArticles(response['items']);
+    displayPaginationDiv(response['pagination']);
   }
-
-  xmlhttp.send();
 }
