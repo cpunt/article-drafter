@@ -5,6 +5,7 @@ async function login() {
     username: username,
     password: password
   };
+  
   const request = await fetch('/articles/index.php', {
     method: 'POST',
     headers: {

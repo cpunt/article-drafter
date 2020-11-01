@@ -2,18 +2,16 @@ window.onload = function() {
   obeserve();
 }
 
-function create(draft) {
+async function create(draft) {
   const articleTitle = document.getElementById('title').value.trim();
   const articleText = simplemde.value();
-  const tag = document.getElementsByClassName('tag');
+  const tags = [...document.getElementsByClassName('tag')];
   const articleTags = [];
   let titleValid, textValid, tagsValid;
 
-  if(tag) {
-    for(let i = 0; i < tag.length; i++) {
-      articleTags.push(tag[i].innerHTML);
-    }
-  }
+  tags.forEach(tag => {
+    articleTags.push(tag.innerHTML);
+  });
 
   const article = {
     title: articleTitle,
@@ -29,27 +27,21 @@ function create(draft) {
   }
 
   if(draft || (titleValid && textValid && tagsValid)) {
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.open('POST', '/articles/index.php', true);
-    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    const request = await fetch('/articles/index.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: `create=${encodeURIComponent(JSON.stringify(article))}`
+    });
+    const response = JSON.parse(await request.text());
 
-    xmlhttp.onreadystatechange = function() {
-      if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        const res = JSON.parse(xmlhttp.responseText);
-
-        if(res['created']) {
-          if(res['draft']) {
-            window.location.href = `/articles/drafts/page/1`;
-          } else {
-            window.location.href = `/articles/article/${res['created']}`;
-          }
-        } else {
-          validateAritcle(res['article']);
-        }
-      }
+    if(response['created']) {
+      const url = response['draft'] ? `/articles/drafts/page/1` : `/articles/article/${response['created']}`;
+      window.location.href = url;
+    } else {
+      validateAritcle(response['article']);
     }
-
-    xmlhttp.send('create=' + encodeURIComponent(JSON.stringify(article)));
   }
 }
 
