@@ -1,31 +1,27 @@
-function signup() {
+async function signup() {
   const signupUsername = document.getElementById('signupUsername').value;
   const signupPw = document.getElementById('signupPw').value;
   const signupConPw = document.getElementById('signupConPw').value;
-
   const newUser = {
     username: signupUsername.trim(),
     password: signupPw,
     conPassword: signupConPw
   };
 
-  const xmlhttp = new XMLHttpRequest();
-  xmlhttp.open('POST', '/articles/index.php', true);
-  xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  const request = await fetch('/articles/index.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: `signupUser=${JSON.stringify(newUser)}`
+  });
+  const response = JSON.parse(await request.text());
 
-  xmlhttp.onreadystatechange = function() {
-    if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      const res = JSON.parse(xmlhttp.responseText);
-
-      if(!res['valid']) {
-        signupDisplayErrors(res);
-      } else {
-        window.location.href = '/articles/home';
-      }
-    }
+  if(!response['valid']) {
+    signupDisplayErrors(response);
+  } else {
+    window.location.href = '/articles/home';
   }
-
-  xmlhttp.send('signupUser=' + JSON.stringify(newUser));
 }
 
 function signupDisplayErrors(user) {

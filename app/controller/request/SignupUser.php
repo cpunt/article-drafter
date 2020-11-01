@@ -6,7 +6,7 @@ class SignupUser {
   public function __construct($requestValue) {
     $userModel = new \model\UserModel();
 
-    if(!$userModel->userLoggedIn();) {
+    if(!$userModel->userLoggedIn()) {
       $newUser = (array) json_decode($requestValue);
       $username = $newUser['username'];
       $password = $newUser['password'];
