@@ -202,11 +202,11 @@ function displayPageNumbers(pagination) {
 }
 
 function displayArticles(articles) {
+  const displayArticle = new DisplayArticle();
   const articlesDiv = document.getElementById('articlesDiv');
   articlesDiv.innerHTML = '';
 
   if(articles.length > 0) {
-    const displayArticle = new DisplayArticle();
     for(let i = 0; i < articles.length; i++) {
       articlesDiv.innerHTML += displayArticle.getArticleHTML(articles[i], 'articles');
     }
@@ -215,6 +215,12 @@ function displayArticles(articles) {
       hljs.highlightBlock(block);
     });
   } else {
-    articlesDiv.innerHTML = displayArticle.getNullHTML('posts');
+    const editTag = document.getElementsByClassName('editTag');
+
+    if(editTag.length > 0) {
+      articlesDiv.innerHTML = displayArticle.getNullHTML('tags');
+    } else {
+      articlesDiv.innerHTML = displayArticle.getNullHTML('posts');
+    }
   }
 }
