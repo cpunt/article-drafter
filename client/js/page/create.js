@@ -5,9 +5,8 @@ window.onload = function() {
 async function create(draft) {
   const articleTitle = document.getElementById('title').value.trim();
   const articleText = simplemde.value();
-  const tags = [...document.getElementsByClassName('tag')];
   const articleTags = [];
-  let titleValid, textValid, tagsValid;
+  const tags = [...document.getElementsByClassName('tag')];
 
   tags.forEach(tag => {
     articleTags.push(tag.innerHTML);
@@ -21,27 +20,25 @@ async function create(draft) {
   };
 
   if(!draft) {
-    titleValid = validateTitle(articleTitle);
-    textValid = validateText(articleText);
-    tagsValid = validateTags(articleTags, 5);
+    if(!validArticle(true, articleTitle, articleText, articleTags)) {
+      return;
+    }
   }
 
-  if(draft || (titleValid && textValid && tagsValid)) {
-    const request = await fetch('/articles/index.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: `create=${encodeURIComponent(JSON.stringify(article))}`
-    });
-    const response = JSON.parse(await request.text());
+  const request = await fetch('/articles/index.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: `create=${encodeURIComponent(JSON.stringify(article))}`
+  });
+  const response = JSON.parse(await request.text());
 
-    if(response['created']) {
-      const url = response['draft'] ? `/articles/drafts/page/1` : `/articles/article/${response['created']}`;
-      window.location.href = url;
-    } else {
-      validateAritcle(response['article']);
-    }
+  if(response['created']) {
+    const url = response['draft'] ? `/articles/drafts/page/1` : `/articles/article/${response['created']}`;
+    window.location.href = url;
+  } else {
+    throw new Error('Invalid Input');
   }
 }
 

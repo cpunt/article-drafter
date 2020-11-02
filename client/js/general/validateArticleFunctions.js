@@ -1,3 +1,11 @@
+function validArticle(checkTitle, title, text, tags) {
+  const titleValid = checkTitle ? validateTitle(title) : true;
+  const textValid = validateText(text);
+  const tagsValid = validateTags(tags);
+
+  return (titleValid && textValid && tagsValid);
+}
+
 function validateTitle(title) {
   const titleLen = title.length;
   const articleTitle = document.getElementById('title');
@@ -38,7 +46,7 @@ function validateText(text) {
   }
 }
 
-function validateTags(tags, n) {
+function validateTags(tags, n=5) {
   const tagsLen = tags.length;
   const articleTags = document.getElementById('articleTags');
   const tagFeedbackDiv = document.getElementById('tagFeedbackDiv');

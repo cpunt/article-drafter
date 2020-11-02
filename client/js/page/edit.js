@@ -1,109 +1,85 @@
 window.onload = function() {
-  load();
-  obeserve();
-}
-
-function load() {
   const ref = getRef();
-  const request = {
-    type: 'edit',
-    ref: ref
-  };
 
   if(!ref) {
     window.location.href = '../';
   } else {
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.open('GET', `/articles/index.php?load=${JSON.stringify(request)}`, true);
-
-    xmlhttp.onreadystatechange = function() {
-      if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        const res = JSON.parse(xmlhttp.responseText);
-
-        if(!res['valid']) {
-          window.location.href = '/articles/home/page/1';
-        } else {
-          if(res['draft']) {
-            draftHTML(res['item']);
-          } else {
-            articleHTML(res['item']);
-          }
-
-          hljs.initHighlighting();
-        }
-      }
-    }
-
-    xmlhttp.send();
+    load({
+      type: 'edit',
+      ref: ref
+    });
+    obeserve();
   }
 }
 
-function update(draft, type) {
-  const ref = getRef();
-  const title = draft ? document.getElementById('title').value : '';
-  const text = simplemde.value();
-  const tag = document.getElementsByClassName('tag');
-  const tags = [];
+async function load(data) {
+  const request = await fetch(`/articles/index.php?load=${JSON.stringify(data)}`, {
+    method: 'GET'
+  });
+  const response = JSON.parse(await request.text());
 
-  if(tag) {
-    for(let i = 0; i < tag.length; i++) {
-      tags.push(tag[i].innerHTML);
+  if(!response['valid']) {
+    window.location.href = '/articles/home/page/1';
+  } else {
+    if(response['draft']) {
+      draftHTML(response['item']);
+    } else {
+      articleHTML(response['item']);
     }
-  }
 
-  const request = {
+    hljs.initHighlighting();
+  }
+}
+
+async function update(draft, type) {
+  const articleRef = getRef();
+  const articleTitle = draft ? document.getElementById('title').value : '';
+  const articleText = simplemde.value();
+  const articleTags = [];
+  const tags = [...document.getElementsByClassName('tag')];
+
+  tags.forEach(tag => {
+    articleTags.push(tag.innerHTML);
+  });
+
+  const article = {
     type: type,
-    ref: ref,
-    title: title,
-    text: text,
-    tags: tags,
+    ref: articleRef,
+    title: articleTitle,
+    text: articleText,
+    tags: articleTags,
     draft: draft
   };
 
   if(type == 'updateArticle') {
-    let titleValid;
-    const textValid = validateText(text);
-    const tagsValid = validateTags(tags, 5);
-
-    if(draft) {
-      titleValid = validateTitle(title);
-
-      if (!titleValid) {
-        return;
-      }
-    }
-
-    if(!textValid || !tagsValid) {
+    if(!validArticle(draft, articleTitle, articleText, articleTags)) {
       return;
     }
   }
 
-  const xmlhttp = new XMLHttpRequest();
-  xmlhttp.open('PATCH', `/articles/index.php`, true);
-  xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  const request = await fetch('/articles/index.php', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: `edit=${encodeURIComponent(JSON.stringify(article))}`
+  });
+  const response = JSON.parse(await request.text());
 
-  xmlhttp.onreadystatechange = function() {
-    if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      const res = JSON.parse(xmlhttp.responseText);
-
-      if(!res['valid']) {
-        window.location.href = `/articles/home`;
-        return;
-      }
-
-      if(res['updated']) {
-        if(res['type'] == 'draft') {
-          window.location.href = '/articles/drafts/page/1';
-        } else {
-          window.location.href = `/articles/article/${res['updated']}`;
-        }
-      } else {
-        throw new Error('Invalid Input');
-      }
-    }
+  if(!response['valid']) {
+    window.location.href = '/articles/home';
+    return;
   }
 
-  xmlhttp.send('edit=' + encodeURIComponent(JSON.stringify(request)));
+  if(response['updated']) {
+    if(response['type'] == 'draft') {
+      window.location.href = '/articles/drafts/page/1';
+    } else {
+      window.location.href = `/articles/article/${response['updated']}`;
+    }
+  } else {
+    throw new Error('Invalid Input');
+  }
 }
 
 function articleHTML(item) {
