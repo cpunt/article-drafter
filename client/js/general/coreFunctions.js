@@ -1,21 +1,17 @@
-function logout() {
-  const xmlhttp = new XMLHttpRequest();
-  xmlhttp.open('POST', '/articles/index.php', true);
-  xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+async function logout() {
+  const request = await fetch('/articles/index.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: 'logout=true'
+  });
+  const response = JSON.parse(await request.text());
 
-  xmlhttp.onreadystatechange = function() {
-    if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      const res = JSON.parse(xmlhttp.responseText);
-
-      if(res['logout']) {
-        window.location.href = '/articles/home';
-      }
-    }
+  if(response['logout']) {
+    window.location.href = '/articles/home';
   }
-
-  xmlhttp.send('logout=true');
 }
-
 
 document.addEventListener('click', function(e) {
   const target = e.target;
