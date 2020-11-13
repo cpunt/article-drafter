@@ -8,7 +8,7 @@ async function signup() {
     conPassword: signupConPw
   };
 
-  const request = await fetch('/articles/index.php', {
+  const request = await fetch('/article-drafter/index.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -20,7 +20,7 @@ async function signup() {
   if(!response['valid']) {
     signupDisplayErrors(response);
   } else {
-    window.location.href = '/articles/home';
+    window.location.href = '/article-drafter/home';
   }
 }
 

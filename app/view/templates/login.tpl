@@ -6,12 +6,12 @@
   <!-- Bootstrap -->
   <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh' crossorigin='anonymous'>
   <!-- General -->
-  <link rel='stylesheet' href='/articles/client/css/login&signup.css'>
-  <link rel='stylesheet' href='/articles/client/css/general.css' type='text/css'>
+  <link rel='stylesheet' href='/article-drafter/client/css/login&signup.css'>
+  <link rel='stylesheet' href='/article-drafter/client/css/general.css' type='text/css'>
 
   <!-- JS -->
   <!-- General -->
-  <script src='/articles/client/js/page/login.js'></script>
+  <script src='/article-drafter/client/js/page/login.js'></script>
 </head>
 <body>
 

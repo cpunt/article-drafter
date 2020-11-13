@@ -5,7 +5,7 @@ async function deleteArticle(articleRef) {
       ref: articleRef
     }
 
-    const request = await fetch('/articles/index.php', {
+    const request = await fetch('/article-drafter/index.php', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'

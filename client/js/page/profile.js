@@ -2,7 +2,7 @@ window.onload = function() {
   const request = getRequest();
 
   if(!request['page']) {
-    window.location = '/articles/home/page/1';
+    window.location = '/article-drafter/home/page/1';
   } else {
     document.title = `Profile- ${request['user']}`;
     observe();
@@ -11,12 +11,12 @@ window.onload = function() {
 }
 
 async function load(data) {
-  const request = await fetch(`/articles/index.php/?loadPage=${JSON.stringify(data)}`, {
+  const request = await fetch(`/article-drafter/index.php/?loadPage=${JSON.stringify(data)}`, {
     method: 'GET'
   });
   const response = JSON.parse(await request.text());
   const profile = getUser('profile').toLowerCase();
-  window.history.pushState('page', '', `/articles/profile/${profile}/page/${response['pagination']['page']}`);
+  window.history.pushState('page', '', `/article-drafter/profile/${profile}/page/${response['pagination']['page']}`);
 
   if(!response['validRequest']) {
     console.log('Invalid user');

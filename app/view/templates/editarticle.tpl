@@ -10,10 +10,10 @@
   <!-- Highlight -->
   <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/vs.min.css'>
   <!-- file -->
-  <link rel='stylesheet' href='/articles/client/css/article.css' type='text/css'>
-  <link rel='stylesheet' href='/articles/client/css/general.css' type='text/css'>
-  <link rel='stylesheet' href='/articles/client/css/createArticle.css' type='text/css'>
-  <link rel='stylesheet' href='/articles/client/css/tag.css' type='text/css'>
+  <link rel='stylesheet' href='/article-drafter/client/css/article.css' type='text/css'>
+  <link rel='stylesheet' href='/article-drafter/client/css/general.css' type='text/css'>
+  <link rel='stylesheet' href='/article-drafter/client/css/createArticle.css' type='text/css'>
+  <link rel='stylesheet' href='/article-drafter/client/css/tag.css' type='text/css'>
 
   <!-- JS -->
   <!-- SimpleMDE -->
@@ -21,9 +21,9 @@
   <!-- Highlight -->
   <script src='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js'></script>
   <!-- file  -->
-  <script src='/articles/client/js/general/coreFunctions.js'></script>
-  <script src='/articles/client/js/general/usefulFunctions.js'></script>
-  <script src='/articles/client/js/general/validateArticleFunctions.js'></script>
+  <script src='/article-drafter/client/js/general/coreFunctions.js'></script>
+  <script src='/article-drafter/client/js/general/usefulFunctions.js'></script>
+  <script src='/article-drafter/client/js/general/validateArticleFunctions.js'></script>
 </head>
 <body>
 
@@ -58,8 +58,8 @@
     </div>
   </div>
 
-  <script src='/articles/client/js/page/edit.js'></script>
-  <script src='/articles/client/js/general/edit&create.js'></script>
-  <script src='/articles/client/js/general/tagFunctions.js'></script>
+  <script src='/article-drafter/client/js/page/edit.js'></script>
+  <script src='/article-drafter/client/js/general/edit&create.js'></script>
+  <script src='/article-drafter/client/js/general/tagFunctions.js'></script>
 </body>
 </html>

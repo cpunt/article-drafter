@@ -27,7 +27,7 @@ function getUser(page) {
 
 function getPage() {
   const url = window.location.pathname.split('/');
-  const index = url.indexOf('articles');
+  const index = url.indexOf('article-drafter');
   const page = url[index+1];
   const pages = ['profile', 'drafts'];
 

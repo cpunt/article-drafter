@@ -1,5 +1,5 @@
 async function logout() {
-  const request = await fetch('/articles/index.php', {
+  const request = await fetch('/article-drafter/index.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -9,7 +9,7 @@ async function logout() {
   const response = JSON.parse(await request.text());
 
   if(response['logout']) {
-    window.location.href = '/articles/home';
+    window.location.href = '/article-drafter/home';
   }
 }
 

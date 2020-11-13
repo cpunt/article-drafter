@@ -8,8 +8,8 @@
   <!-- Highlight -->
   <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/vs.min.css'>
   <!-- file -->
-  <link rel='stylesheet' href='/articles/client/css/general.css' type='text/css'>
-  <link rel='stylesheet' href='/articles/client/css/article.css' type='text/css'>
+  <link rel='stylesheet' href='/article-drafter/client/css/general.css' type='text/css'>
+  <link rel='stylesheet' href='/article-drafter/client/css/article.css' type='text/css'>
 
   <!-- JS -->
   <!-- Marked  -->
@@ -17,12 +17,12 @@
   <!-- Highlight -->
   <script src='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js'></script>
   <!-- file  -->
-  <script src='/articles/client/js/page/article.js'></script>
+  <script src='/article-drafter/client/js/page/article.js'></script>
 
-  <script src='/articles/client/js/general/articleFunctions.js'></script>
-  <script src='/articles/client/js/general/DisplayArticle.js'></script>
-  <script src='/articles/client/js/general/coreFunctions.js'></script>
-  <script src='/articles/client/js/general/usefulFunctions.js'></script>
+  <script src='/article-drafter/client/js/general/articleFunctions.js'></script>
+  <script src='/article-drafter/client/js/general/DisplayArticle.js'></script>
+  <script src='/article-drafter/client/js/general/coreFunctions.js'></script>
+  <script src='/article-drafter/client/js/general/usefulFunctions.js'></script>
 </head>
 <body>
 

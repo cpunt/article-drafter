@@ -13,13 +13,13 @@ window.onload = function() {
 }
 
 async function load(data) {
-  const request = await fetch(`/articles/index.php?load=${JSON.stringify(data)}`, {
+  const request = await fetch(`/article-drafter/index.php?load=${JSON.stringify(data)}`, {
     method: 'GET'
   });
   const response = JSON.parse(await request.text());
 
   if(!response['valid']) {
-    window.location.href = '/articles/home/page/1';
+    window.location.href = '/article-drafter/home/page/1';
   } else {
     if(response['draft']) {
       draftHTML(response['item']);
@@ -57,7 +57,7 @@ async function update(draft, type) {
     }
   }
 
-  const request = await fetch('/articles/index.php', {
+  const request = await fetch('/article-drafter/index.php', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -67,15 +67,15 @@ async function update(draft, type) {
   const response = JSON.parse(await request.text());
 
   if(!response['valid']) {
-    window.location.href = '/articles/home';
+    window.location.href = '/article-drafter/home';
     return;
   }
 
   if(response['updated']) {
     if(response['type'] == 'draft') {
-      window.location.href = '/articles/drafts/page/1';
+      window.location.href = '/article-drafter/drafts/page/1';
     } else {
-      window.location.href = `/articles/article/${response['updated']}`;
+      window.location.href = `/article-drafter/article/${response['updated']}`;
     }
   } else {
     throw new Error('Invalid Input');
@@ -90,7 +90,7 @@ function articleHTML(item) {
 
   editTitle.innerHTML = `<u>${item.title}</u>`;
   simplemde.value(item.text);
-  editCreated.innerHTML = `Posted on ${item.created} by <a href='/articles/profile/${item.username}'>${item.username}</a>`;
+  editCreated.innerHTML = `Posted on ${item.created} by <a href='/article-drafter/profile/${item.username}'>${item.username}</a>`;
 
   for(let i = 0; i < item.tags.length; i++) {
     tagsDiv.innerHTML += tagHTML(item.tags[i]);
@@ -111,9 +111,9 @@ function draftHTML(item) {
 
 function cancel(draft) {
   if(draft) {
-    window.location.href = '/articles/drafts/page/1';
+    window.location.href = '/article-drafter/drafts/page/1';
   } else {
     const ref = getRef();
-    window.location.href = `/articles/article/${ref}`;
+    window.location.href = `/article-drafter/article/${ref}`;
   }
 }

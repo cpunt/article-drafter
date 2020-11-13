@@ -8,9 +8,9 @@
   <!-- Highlight -->
   <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/vs.min.css'>
   <!-- Normal files -->
-  <link rel='stylesheet' href='/articles/client/css/article.css' type='text/css'>
-  <link rel='stylesheet' href='/articles/client/css/general.css' type='text/css'>
-  <link rel='stylesheet' href='/articles/client/css/tag.css' type='text/css'>
+  <link rel='stylesheet' href='/article-drafter/client/css/article.css' type='text/css'>
+  <link rel='stylesheet' href='/article-drafter/client/css/general.css' type='text/css'>
+  <link rel='stylesheet' href='/article-drafter/client/css/tag.css' type='text/css'>
 
   <!-- JS -->
   <!-- Marked -->
@@ -18,11 +18,11 @@
   <!-- Highlight -->
   <script src='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js'></script>
   <!-- Normal files -->
-  <script src='/articles/client/js/general/articleFunctions.js'></script>
-  <script src='/articles/client/js/general/DisplayArticle.js'></script>
-  <script src='/articles/client/js/general/usefulFunctions.js'></script>
-  <script src='/articles/client/js/general/coreFunctions.js'></script>
-  <script src='/articles/client/js/general/pageFunctions.js'></script>
+  <script src='/article-drafter/client/js/general/articleFunctions.js'></script>
+  <script src='/article-drafter/client/js/general/DisplayArticle.js'></script>
+  <script src='/article-drafter/client/js/general/usefulFunctions.js'></script>
+  <script src='/article-drafter/client/js/general/coreFunctions.js'></script>
+  <script src='/article-drafter/client/js/general/pageFunctions.js'></script>
 </head>
 <body>
   {% include 'nav.tpl' %}
@@ -33,6 +33,6 @@
     {% include 'pagination.tpl' %}
   </div>
 
-  <script src='/articles/client/js/page/drafts.js'></script>
+  <script src='/article-drafter/client/js/page/drafts.js'></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 function getRef() {
   const urlArr = window.location.pathname.split('/');
-  const index = urlArr.indexOf('articles');
+  const index = urlArr.indexOf('article-drafter');
   const articleRef = urlArr[index + 2];
 
   return articleRef;

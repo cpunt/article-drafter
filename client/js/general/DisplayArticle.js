@@ -6,7 +6,7 @@ class DisplayArticle {
       <div class='card-body p-3'>
         <div>
           <h3 class='d-inline'><u>${article.title}</u></h3>
-          <p class='d-inline info float-right mr-4'>Posted on ${article.created} by <a href='/articles/profile/${article.username}'>${article.username}</a></p>
+          <p class='d-inline info float-right mr-4'>Posted on ${article.created} by <a href='/article-drafter/profile/${article.username}'>${article.username}</a></p>
         </div>
         <hr>`;
 
@@ -52,7 +52,7 @@ class DisplayArticle {
 
     if(article['editable']) {
       html += `
-        <a class='float-right' href='/articles/editarticle/${article.articleref}'>Edit</a>
+        <a class='float-right' href='/article-drafter/editarticle/${article.articleref}'>Edit</a>
         <p class='float-right mr-4 delete-btn' onclick='deleteArticle("${article.articleref}")'>Delete</p>`;
     }
 
@@ -73,11 +73,11 @@ class DisplayArticle {
       </div>
     </div>
     <div class='optionsBar' class='mt-2 more label'>
-      <a href='/articles/article/${article.articleref}'>Read more</a>`;
+      <a href='/article-drafter/article/${article.articleref}'>Read more</a>`;
 
     if(article['editable']) {
       html += `
-      <a class='float-right' href='/articles/editarticle/${article.articleref}'>Edit</a>
+      <a class='float-right' href='/article-drafter/editarticle/${article.articleref}'>Edit</a>
       <p class='float-right mr-4 delete-btn' onclick='deleteArticle("${article.articleref}")'>Delete</p>`
     }
 

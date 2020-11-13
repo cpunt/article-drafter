@@ -3,14 +3,14 @@ window.onload = function() {
 }
 
 async function load(data) {
-  const request = await fetch(`/articles/index.php/?loadPage=${JSON.stringify(data)}`, {
+  const request = await fetch(`/article-drafter/index.php/?loadPage=${JSON.stringify(data)}`, {
     method: 'GET'
   });
   const response = JSON.parse(await request.text());
-  window.history.pushState('page', '', `/articles/drafts/page/${response['pagination']['page']}`);
+  window.history.pushState('page', '', `/article-drafter/drafts/page/${response['pagination']['page']}`);
 
   if(!response['validRequest']) {
-    window.location.href = `/articles`;
+    window.location.href = `/article-drafter`;
   } else {
     displayDrafts(response['items']);
     displayPaginationDiv(response['pagination']);
@@ -24,7 +24,7 @@ async function deleteDraft(ref) {
       type: 'delete',
       ref: ref
     };
-    const request = await fetch('/articles/index.php', {
+    const request = await fetch('/article-drafter/index.php', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -60,8 +60,8 @@ function displayDrafts(drafts) {
       draftsDiv.innerHTML += `
       <div class='card border-0 shadow my-3 py-3'>
         <div class='d-inline'>
-          <a href='/articles/editdraft/${drafts[i].articleref}' class='ml-3 d-inline'>${drafts[i].title.length > 0 ? drafts[i].title : 'Untitled'}</a>
-          <img class='d-inline float-right mr-3 icon' src='/articles/client/assets/delete.svg' width='24' height='24' onclick="deleteDraft('${drafts[i].articleref}')">
+          <a href='/article-drafter/editdraft/${drafts[i].articleref}' class='ml-3 d-inline'>${drafts[i].title.length > 0 ? drafts[i].title : 'Untitled'}</a>
+          <img class='d-inline float-right mr-3 icon' src='/article-drafter/client/assets/delete.svg' width='24' height='24' onclick="deleteDraft('${drafts[i].articleref}')">
         </div>
       </div>
       `;

@@ -5,8 +5,8 @@ async function login() {
     username: username,
     password: password
   };
-  
-  const request = await fetch('/articles/index.php', {
+
+  const request = await fetch('/article-drafter/index.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -18,7 +18,7 @@ async function login() {
   if(!response['valid']) {
     loginDisplayErrors();
   } else {
-    window.location.href = '/articles/home';
+    window.location.href = '/article-drafter/home';
   }
 }
 

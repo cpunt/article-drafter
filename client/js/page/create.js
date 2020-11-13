@@ -25,7 +25,7 @@ async function create(draft) {
     }
   }
 
-  const request = await fetch('/articles/index.php', {
+  const request = await fetch('/article-drafter/index.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -35,7 +35,7 @@ async function create(draft) {
   const response = JSON.parse(await request.text());
 
   if(response['created']) {
-    const url = response['draft'] ? `/articles/drafts/page/1` : `/articles/article/${response['created']}`;
+    const url = response['draft'] ? `/article-drafter/drafts/page/1` : `/article-drafter/article/${response['created']}`;
     window.location.href = url;
   } else {
     throw new Error('Invalid Input');
@@ -43,5 +43,5 @@ async function create(draft) {
 }
 
 function cancel() {
-  window.location.href = `/articles`;
+  window.location.href = `/article-drafter`;
 }
