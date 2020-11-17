@@ -12,7 +12,7 @@
   <!-- file -->
   <link rel='stylesheet' href='/article-drafter/client/css/article.css' type='text/css'>
   <link rel='stylesheet' href='/article-drafter/client/css/general.css' type='text/css'>
-  <link rel='stylesheet' href='/article-drafter/client/css/createArticle.css' type='text/css'>
+  <link rel='stylesheet' href='/article-drafter/client/css/validation.css' type='text/css'>
   <link rel='stylesheet' href='/article-drafter/client/css/tag.css' type='text/css'>
 
   <!-- JS -->
@@ -33,6 +33,8 @@
     <div id='articleDiv' class='card-body p-3'>
       <div class='card border-0 shadow my-3'>
         <div class='card-body'>
+          <p id='lastSaved' class='saveLabel'></p>
+
           <div>
             <h3 id='editTitle' class='d-inline'><u></u></h3>
             <p id='editCreated' class='d-inline info float-right mr-4'></p>
@@ -49,8 +51,7 @@
           {% include 'tagInput.tpl' %}
 
           <div id='buttonDiv'>
-            <button class='btn btn-primary float-right' onclick="update(0, 'updateArticle')">Update</button>
-            <button class='btn btn-primary float-right mr-3' onclick='cancel(0)'>Cancel</button>
+            <button class='btn btn-primary float-right' onclick="saveArticleAndRedirect()">Save Article</button>
           </div>
           <hr>
         </div>
@@ -58,8 +59,8 @@
     </div>
   </div>
 
-  <script src='/article-drafter/client/js/page/edit.js'></script>
-  <script src='/article-drafter/client/js/general/edit&create.js'></script>
+  <script src='/article-drafter/client/js/general/autosave.js'></script>
   <script src='/article-drafter/client/js/general/tagFunctions.js'></script>
+  <script src='/article-drafter/client/js/page/editArticle.js'></script>
 </body>
 </html>

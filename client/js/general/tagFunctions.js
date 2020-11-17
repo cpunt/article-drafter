@@ -1,4 +1,30 @@
-addTagEvent();
+function observe() {
+  const tagsDiv = document.getElementById('tagsDiv');
+  const config = {
+    attributes: true,
+    childList: true,
+    subtree: true
+  };
+
+  const observer = new MutationObserver(tagsDivChange);
+  observer.observe(tagsDiv, config);
+}
+
+function tagsDivChange() {
+  const tag = document.getElementsByClassName('tag');
+  const articleTags = document.getElementById('articleTags');
+  const articleBtn = document.getElementById('articleBtn');
+
+  if(tag && tag.length == 5) {
+    articleTags.disabled = true;
+    articleBtn.disabled = true;
+    removeTagEvent();
+  } else {
+    articleTags.disabled = false;
+    articleBtn.disabled = false;
+    addTagEvent();
+  }
+}
 
 function addTagEvent() {
   document.getElementById('articleTags').addEventListener('keydown', tagEvent);

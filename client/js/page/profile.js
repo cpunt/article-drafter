@@ -18,10 +18,10 @@ async function load(data) {
   const profile = getUser('profile').toLowerCase();
   window.history.pushState('page', '', `/article-drafter/profile/${profile}/page/${response['pagination']['page']}`);
 
-  if(!response['validRequest']) {
+  if(!response['valid']) {
     console.log('Invalid user');
   } else {
-    displayArticles(response['items']);
+    displayArticles(response['articles']);
     displayPaginationDiv(response['pagination']);
   }
 }

@@ -1,9 +1,6 @@
 function getRef() {
   const urlArr = window.location.pathname.split('/');
-  const index = urlArr.indexOf('article-drafter');
-  const articleRef = urlArr[index + 2];
-
-  return articleRef;
+  return urlArr[urlArr.length - 1];
 }
 
 function getTextLength(text) {

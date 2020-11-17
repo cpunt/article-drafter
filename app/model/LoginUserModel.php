@@ -38,8 +38,7 @@ class LoginUserModel extends \db\Database {
         return true;
       }
     }
-    
+
     return false;
   }
-
 }

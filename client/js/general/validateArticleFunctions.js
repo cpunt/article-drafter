@@ -1,9 +1,9 @@
-function validArticle(checkTitle, title, text, tags) {
-  const titleValid = checkTitle ? validateTitle(title) : true;
+function validArticle(title, text, tags) {
+  const titleValid = validateTitle(title);
   const textValid = validateText(text);
   const tagsValid = validateTags(tags);
 
-  return (titleValid && textValid && tagsValid);
+  return titleValid && textValid && tagsValid;
 }
 
 function validateTitle(title) {

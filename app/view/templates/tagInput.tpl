@@ -8,5 +8,5 @@
   <div id='tagFeedbackDiv' class='invalid-feedback feedback-div'>
   </div>
 
-  <div id='tagsDiv' class='mt-0'></div>
+  <div id='tagsDiv' name='tags' class='mt-0'></div>
 </div>

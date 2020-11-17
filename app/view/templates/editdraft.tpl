@@ -11,7 +11,7 @@
   <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/vs.min.css'>
   <!-- <link rel='stylesheet' href='https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css'> -->
   <!-- Normal -->
-  <link rel='stylesheet' href='/article-drafter/client/css/createArticle.css' type='text/css'>
+  <link rel='stylesheet' href='/article-drafter/client/css/validation.css' type='text/css'>
   <link rel='stylesheet' href='/article-drafter/client/css/general.css' type='text/css'>
   <link rel='stylesheet' href='/article-drafter/client/css/tag.css' type='text/css'>
 
@@ -37,14 +37,16 @@
           <div class='my-3'>
 
             <div class='form-group max-width'>
-              <input id='title' class='form-control' placeholder='Title' maxlength='100'></input>
+              <p id='lastSaved' class='saveLabel'></p>
+
+              <input id='title' name='title' class='form-control' placeholder='Title' maxlength='100'></input>
               <div id='titleFeedbackDiv' class='invalid-feedback'>
                 Title needs to be between 1 and 100 characters long.
               </div>
             </div>
 
             <div class='form-group max-width'>
-              <textarea id='text' class='form-control' rows='8' placeholder='Article' maxlength='10000'></textarea>
+              <textarea oninput='flagUpdate()' id='text' name='text' class='form-control' rows='8' placeholder='Article' maxlength='10000'></textarea>
               <div id='textFeedbackDiv' class='invalid-feedback'>
                 Article needs to be between 100 and 10000 charaters long.
               </div>
@@ -53,9 +55,8 @@
             {% include 'tagInput.tpl' %}
 
             <div>
-              <button type='button' class='btn btn-primary text-center float-right' onclick="update(1, 'updateArticle')">Create Article</button>
-              <button type='button' class='btn btn-primary text-center float-right mr-3' onclick="update(1, 'updateDraft')">Update Draft</button>
-              <button type='button' class='btn btn-primary text-center float-right mr-3' onclick='cancel(1)'>Cancel</button>
+              <button type='button' class='btn btn-primary text-center float-right' onclick='createArticle()'>Create Article</button>
+              <button type='button' class='btn btn-primary text-center float-right mr-3' onclick='saveDraftAndRedirect()'>Save Draft</button>
             </div>
           </div>
         </div>
@@ -63,8 +64,8 @@
     </div>
   </div>
 
-  <script src='/article-drafter/client/js/page/edit.js'></script>
-  <script src='/article-drafter/client/js/general/edit&create.js'></script>
+  <script src='/article-drafter/client/js/general/autosave.js'></script>
   <script src='/article-drafter/client/js/general/tagFunctions.js'></script>
+  <script src='/article-drafter/client/js/page/editDraft.js'></script>
 </body>
 </html>

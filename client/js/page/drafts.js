@@ -9,10 +9,10 @@ async function load(data) {
   const response = JSON.parse(await request.text());
   window.history.pushState('page', '', `/article-drafter/drafts/page/${response['pagination']['page']}`);
 
-  if(!response['validRequest']) {
-    window.location.href = `/article-drafter`;
+  if(!response['valid']) {
+    window.location.href = `/article-drafter/home/page/1`;
   } else {
-    displayDrafts(response['items']);
+    displayDrafts(response['articles']);
     displayPaginationDiv(response['pagination']);
   }
 }

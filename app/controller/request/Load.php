@@ -10,28 +10,18 @@ class Load {
     $userModel = new \model\UserModel();
     $response['valid'] = true;
 
-    if($type == 'edit') {
-      $iduser = $userModel->userLoggedIn();
-      $editModel = new \model\EditModel($iduser, $ref);
-
-      if(!$iduser || !$editModel->validateEdit()) {
-        $response['valid'] = false;
-      }
-    }
+    // TODO sort out this
+    // if ($type == 'view') {
+    //   // Validate article type isn't draft
+    //   if (condition here) $response['valid'] = false;
+    // } else if ($type == 'edit') {
+    //   //   $editModel = new \model\EditModel($userModel->userLoggedIn(), $ref);
+    //   //   if(!$iduser || !$editModel->validateEdit()) $response['valid'] = false;
+    // }
 
     if($response['valid']) {
-      $loadItemModel = new \model\LoadItemModel($ref);
-      $item = $loadItemModel->getItem();
-
-      $outputModel = new \model\OutputModel();
-      $response['item'] = $outputModel->output($item, $userModel->username())[0];
-      $response['draft'] = $response['item']['draft'];
-      unset($response['item']['draft']);
-
-      if($type == 'view' && $response['draft']) {
-        $response['valid'] = false;
-        unset($response['item']);
-      }
+      $loadItemModel = new \model\GetArticleModel($userModel->username(), $ref);
+      $response['article'] = $loadItemModel->get();
     }
 
     $jsonEncodeView = new \view\JSONEncodeView();

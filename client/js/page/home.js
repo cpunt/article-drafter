@@ -1,6 +1,7 @@
 window.onload = function() {
-  observe();
+  // observe();
   load(getRequest());
+  addTagEvent();
 }
 
 async function load(data) {
@@ -8,8 +9,8 @@ async function load(data) {
     method: 'GET'
   });
   const response = JSON.parse(await request.text());
-  window.history.pushState('page', '', `/article-drafter/home/page/${response['pagination']['page']}`)
 
-  displayArticles(response['items']);
+  window.history.pushState('page', '', `/article-drafter/home/page/${response['pagination']['page']}`)
+  displayArticles(response['articles']);
   displayPaginationDiv(response['pagination']);
 }
