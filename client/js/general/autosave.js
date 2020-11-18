@@ -62,14 +62,12 @@ function setFlag (name) {
   }
 }
 
-function setAutosave (callback, draft) {
-  if (draft) {
-    const title = document.getElementById('title');
-    title.addEventListener('input', () => setFlag('title'));
-  }
+function setAutosave (callback) {
+  const title = document.getElementById('title');
   const text = simplemde;
   const tags = document.getElementById('tagsDiv');
 
+  title.addEventListener('input', () => setFlag('title'));
   text.codemirror.on('change', () => setFlag('text'));
   tags.addEventListener('DOMNodeRemoved', () => setFlag('tags'));
 

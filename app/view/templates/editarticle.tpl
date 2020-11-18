@@ -33,25 +33,11 @@
     <div id='articleDiv' class='card-body p-3'>
       <div class='card border-0 shadow my-3'>
         <div class='card-body'>
-          <p id='lastSaved' class='saveLabel'></p>
-
-          <div>
-            <h3 id='editTitle' class='d-inline'><u></u></h3>
-            <p id='editCreated' class='d-inline info float-right mr-4'></p>
-          </div>
-          <hr>
-
-          <div class='form-group'>
-            <textarea id='articleText' class='form-control' rows='8' placeholder='Article' maxlength='10000'></textarea>
-            <div id='textFeedbackDiv' class='invalid-feedback'>
-              Article needs to be between 100 and 10000 charaters long.
-            </div>
-          </div>
+          {% include 'articleInputs.tpl' %}
 
           {% include 'tagInput.tpl' %}
-
-          <div id='buttonDiv'>
-            <button class='btn btn-primary float-right' onclick="saveArticleAndRedirect()">Save Article</button>
+          <div>
+            <button class='btn btn-primary float-right' onclick='saveArticleAndRedirect()'>Save Article</button>
           </div>
           <hr>
         </div>
@@ -61,6 +47,7 @@
 
   <script src='/article-drafter/client/js/general/autosave.js'></script>
   <script src='/article-drafter/client/js/general/tagFunctions.js'></script>
-  <script src='/article-drafter/client/js/page/editArticle.js'></script>
+  <script src='/article-drafter/client/js/general/save.js'></script>
+  <script src='/article-drafter/client/js/page/edit.js'></script>
 </body>
 </html>

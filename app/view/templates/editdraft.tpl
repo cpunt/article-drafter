@@ -35,28 +35,12 @@
       <div class='card border-0 shadow my-3'>
         <div class='card-body p-3 bg-white'>
           <div class='my-3'>
-
-            <div class='form-group max-width'>
-              <p id='lastSaved' class='saveLabel'></p>
-
-              <input id='title' name='title' class='form-control' placeholder='Title' maxlength='100'></input>
-              <div id='titleFeedbackDiv' class='invalid-feedback'>
-                Title needs to be between 1 and 100 characters long.
-              </div>
-            </div>
-
-            <div class='form-group max-width'>
-              <textarea oninput='flagUpdate()' id='text' name='text' class='form-control' rows='8' placeholder='Article' maxlength='10000'></textarea>
-              <div id='textFeedbackDiv' class='invalid-feedback'>
-                Article needs to be between 100 and 10000 charaters long.
-              </div>
-            </div>
+            {% include 'articleInputs.tpl' %}
 
             {% include 'tagInput.tpl' %}
-
             <div>
-              <button type='button' class='btn btn-primary text-center float-right' onclick='createArticle()'>Create Article</button>
-              <button type='button' class='btn btn-primary text-center float-right mr-3' onclick='saveDraftAndRedirect()'>Save Draft</button>
+              <button class='btn btn-primary text-center float-right' onclick='saveArticleAndRedirect(true)'>Create Article</button>
+              <button class='btn btn-primary text-center float-right mr-3' onclick='saveDraftAndRedirect()'>Save Draft</button>
             </div>
           </div>
         </div>
@@ -66,6 +50,7 @@
 
   <script src='/article-drafter/client/js/general/autosave.js'></script>
   <script src='/article-drafter/client/js/general/tagFunctions.js'></script>
-  <script src='/article-drafter/client/js/page/editDraft.js'></script>
+  <script src='/article-drafter/client/js/general/save.js'></script>
+  <script src='/article-drafter/client/js/page/edit.js'></script>
 </body>
 </html>

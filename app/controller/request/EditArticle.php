@@ -15,12 +15,12 @@ class EditArticle {
       $response['valid'] = true;
 
       switch ($request['type']) {
-        case 'create':
-          $saved = $editArticleModel->save($request['title'], $request['text'], $request['tags']);
-          $response['created'] = $saved ? $editArticleModel->create() : false;
-          break;
         case 'save':
           $response['lastSaved'] = $editArticleModel->save($request['title'], $request['text'], $request['tags']);
+
+          if ($request['create']) {
+            $response['created'] = $response['lastSaved'] ? $editArticleModel->create() : false;
+          }
           break;
         case 'delete':
           $response['deleted'] = $editArticleModel->delete();
