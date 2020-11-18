@@ -27,7 +27,6 @@
 }
 
 #titleFeedbackDiv, #textFeedbackDiv {
-  visibility: hidden;
   display: block;
   height: 20px;
 }

@@ -73,10 +73,8 @@ function setAutosave (callback) {
 
   // Auto save ever 10 seconds
   setInterval(() => {
-    if (!autosaveFlags.isFlagSet()) {
-      console.log('No updates');
-    } else {
-      console.log('saved');
+    if (autosaveFlags.isFlagSet()) {
+      // Save
       autosaveFlags.resetFlags();
       callback();
     }

@@ -3,7 +3,8 @@ async function saveDraft () {
   draft['type'] = 'save';
   draft['ref'] = getRef();
 
-  // TODO add draft validation
+  if (!validDraft(draft['title'], draft['text'], draft['tags'])) return false;
+
   const response = await request('/article-drafter/index.php', {
     method: 'PATCH',
     headers: {
@@ -18,12 +19,12 @@ async function saveDraft () {
   }
 
   if (!response['lastSaved']) {
-    // TODO potentially add validation warnings here
     console.error('Issue saving');
-  } else {
-    const lastSaved = document.getElementById('lastSaved');
-    lastSaved.innerHTML = `Last saved: ${response['lastSaved']}`;
+    return false;
   }
+
+  const lastSaved = document.getElementById('lastSaved');
+  lastSaved.innerHTML = `Last saved: ${response['lastSaved']}`;
 
   return response['lastSaved'];
 }
@@ -50,12 +51,12 @@ async function saveArticle (createFlag=false) {
   }
 
   if (!response['lastSaved']) {
-    // TODO potentially add validation warnings here
     console.error('Issue saving');
-  } else {
-    const lastSaved = document.getElementById('lastSaved');
-    lastSaved.innerHTML = `Last saved: ${response['lastSaved']}`;
+    return false;
   }
+
+  const lastSaved = document.getElementById('lastSaved');
+  lastSaved.innerHTML = `Last saved: ${response['lastSaved']}`;
 
   return response['lastSaved'];
 }
