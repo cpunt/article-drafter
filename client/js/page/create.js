@@ -1,47 +1,25 @@
 window.onload = function() {
-  obeserve();
+  addTagEvent();
+
+  if (createDraft()) {
+    setAutosave(saveDraft);
+  } else {
+    console.error('Error creating new draft');
+  }
 }
 
-async function create(draft) {
-  const articleTitle = document.getElementById('title').value.trim();
-  const articleText = simplemde.value();
-  const articleTags = [];
-  const tags = [...document.getElementsByClassName('tag')];
+async function createDraft () {
+  const draft = getArticle();
 
-  tags.forEach(tag => {
-    articleTags.push(tag.innerHTML);
-  });
-
-  const article = {
-    title: articleTitle,
-    text: articleText,
-    tags: articleTags,
-    draft: draft
-  };
-
-  if(!draft) {
-    if(!validArticle(true, articleTitle, articleText, articleTags)) {
-      return;
-    }
-  }
-
-  const request = await fetch('/article-drafter/index.php', {
+  const response = await request('/article-drafter/index.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
-    body: `create=${encodeURIComponent(JSON.stringify(article))}`
+    body: `create=${encodeURIComponent(JSON.stringify(draft))}`
   });
-  const response = JSON.parse(await request.text());
 
-  if(response['created']) {
-    const url = response['draft'] ? `/article-drafter/drafts/page/1` : `/article-drafter/article/${response['created']}`;
-    window.location.href = url;
-  } else {
-    throw new Error('Invalid Input');
-  }
-}
-
-function cancel() {
-  window.location.href = `/article-drafter`;
+  const lastSaved = document.getElementById('lastSaved');
+  lastSaved.innerHTML = `Last saved: ${response['created']['lastSaved']}`;
+  window.history.pushState('', '', `/article-drafter/createArticle/${response['created']['articleRef']}`);
 }

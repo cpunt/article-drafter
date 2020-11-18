@@ -1,19 +1,11 @@
-function getRef() {
-  const urlArr = window.location.pathname.split('/');
-  const index = urlArr.indexOf('article-drafter');
-  const articleRef = urlArr[index + 2];
+async function request (url, options) {
+  const request = await fetch(url, options);
+  const response = JSON.parse(await request.text());
 
-  return articleRef;
+  return response;
 }
 
-function getTextLength(text) {
-  let counter = 0;
-
-  for(let i = 0; i < text.length; i++) {
-    if(text[i] != ' ') {
-      counter++;
-    }
-  }
-
-  return counter;
+function getRef() {
+  const urlArr = window.location.pathname.split('/');
+  return urlArr[urlArr.length - 1];
 }

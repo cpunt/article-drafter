@@ -1,119 +1,44 @@
-window.onload = function() {
+window.onload = function () {
   const ref = getRef();
 
   if(!ref) {
-    window.location.href = '../';
-  } else {
-    load({
-      type: 'edit',
-      ref: ref
-    });
-    obeserve();
-  }
-}
-
-async function load(data) {
-  const request = await fetch(`/article-drafter/index.php?load=${JSON.stringify(data)}`, {
-    method: 'GET'
-  });
-  const response = JSON.parse(await request.text());
-
-  if(!response['valid']) {
     window.location.href = '/article-drafter/home/page/1';
   } else {
-    if(response['draft']) {
-      draftHTML(response['item']);
-    } else {
-      articleHTML(response['item']);
-    }
+    loadArticle({
+      type: 'edit',
+      ref: ref
+    }).then(draft => {
+      const callback = draft ? saveDraft : saveArticle;
+      setAutosave(callback);
+    });
 
-    hljs.initHighlighting();
+    addTagEvent();
   }
 }
 
-async function update(draft, type) {
-  const articleRef = getRef();
-  const articleTitle = draft ? document.getElementById('title').value : '';
-  const articleText = simplemde.value();
-  const articleTags = [];
-  const tags = [...document.getElementsByClassName('tag')];
-
-  tags.forEach(tag => {
-    articleTags.push(tag.innerHTML);
+async function loadArticle (data) {
+  const response = await request(`/article-drafter/index.php?load=${JSON.stringify(data)}`, {
+    method: 'GET'
   });
 
-  const article = {
-    type: type,
-    ref: articleRef,
-    title: articleTitle,
-    text: articleText,
-    tags: articleTags,
-    draft: draft
-  };
-
-  if(type == 'updateArticle') {
-    if(!validArticle(draft, articleTitle, articleText, articleTags)) {
-      return;
-    }
-  }
-
-  const request = await fetch('/article-drafter/index.php', {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: `edit=${encodeURIComponent(JSON.stringify(article))}`
-  });
-  const response = JSON.parse(await request.text());
-
-  if(!response['valid']) {
-    window.location.href = '/article-drafter/home';
-    return;
-  }
-
-  if(response['updated']) {
-    if(response['type'] == 'draft') {
-      window.location.href = '/article-drafter/drafts/page/1';
-    } else {
-      window.location.href = `/article-drafter/article/${response['updated']}`;
-    }
+  if (!response['valid']) {
+    window.location.href = '/article-drafter/home/page/1';
   } else {
-    throw new Error('Invalid Input');
+    articleHTML(response['article']);
+    return response['article']['draft'];
   }
 }
 
-function articleHTML(item) {
-  const editTitle = document.getElementById('editTitle');
-  const editCreated = document.getElementById('editCreated');
-  const badges = document.getElementById('badges');
-  const tagsDiv = document.getElementById('tagsDiv');
-
-  editTitle.innerHTML = `<u>${item.title}</u>`;
-  simplemde.value(item.text);
-  editCreated.innerHTML = `Posted on ${item.created} by <a href='/article-drafter/profile/${item.username}'>${item.username}</a>`;
-
-  for(let i = 0; i < item.tags.length; i++) {
-    tagsDiv.innerHTML += tagHTML(item.tags[i]);
-  }
-}
-
-function draftHTML(item) {
+function articleHTML (article) {
+  const lastSaved = document.getElementById('lastSaved');
   const title = document.getElementById('title');
-  title.value = item.title;
+  const tags = document.getElementById('tagsDiv');
 
-  simplemde.value(item.text);
-  hljs.initHighlighting();
+  lastSaved.innerHTML = `Last saved: ${article.lastSaved}`;
+  title.value = article.title;
+  simplemde.value(article.text);
 
-  for(let i = 0; i < item.tags.length; i++) {
-    tagsDiv.innerHTML += tagHTML(item.tags[i]);
-  }
-}
-
-function cancel(draft) {
-  if(draft) {
-    window.location.href = '/article-drafter/drafts/page/1';
-  } else {
-    const ref = getRef();
-    window.location.href = `/article-drafter/article/${ref}`;
+  for(let i = 0; i < article.tags.length; i++) {
+    tagsDiv.innerHTML += tagHTML(article.tags[i]);
   }
 }

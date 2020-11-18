@@ -11,6 +11,10 @@ body {
   cursor: pointer;
 }
 
+.saveLabel {
+  color: #777777
+}
+
 #dropdownBtn {
   min-width: 175px;
   max-width: 200px;

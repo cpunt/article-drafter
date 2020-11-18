@@ -22,7 +22,7 @@ async function loadArticle(data) {
   } else {
     const articleDiv = document.getElementById('articleDiv');
     const displayArticle = new DisplayArticle();
-    articleDiv.innerHTML = displayArticle.getArticleHTML(response['item'], 'article');
+    articleDiv.innerHTML = displayArticle.getArticleHTML(response['article'], 'article');
     hljs.initHighlighting();
   }
 }

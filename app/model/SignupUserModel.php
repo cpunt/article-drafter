@@ -90,5 +90,4 @@ class SignupUserModel extends \db\Database {
       return false;
     }
   }
-
 }
