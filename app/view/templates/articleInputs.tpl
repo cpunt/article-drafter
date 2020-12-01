@@ -7,7 +7,7 @@
   </div>
 
   <div class='form-group max-width'>
-    <textarea oninput='flagUpdate()' id='text' name='text' class='form-control' rows='8' placeholder='Article' maxlength='10000'></textarea>
+    <textarea oninput='flagUpdate()' id='text' name='text' class='form-control' rows='8' placeholder='Article' maxlength='20000'></textarea>
     <div id='textFeedbackDiv' class='invalid-feedback'></div>
   </div>
 </div>

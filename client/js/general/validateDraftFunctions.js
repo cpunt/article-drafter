@@ -1,12 +1,12 @@
 function validDraft(title, text, tags) {
-  const titleValid = validateTitle(title);
-  const textValid = validateText(text);
-  const tagsValid = validateTags(tags);
+  const validTitle = validateDraftTitle(title);
+  const validText = validateDraftText(text);
+  const validTags = validateDraftTags(tags);
 
-  return titleValid && textValid && tagsValid;
+  return validTitle && validText && validTags;
 }
 
-function validateTitle(title) {
+function validateDraftTitle(title) {
   const titleLen = title.length;
   const articleTitle = document.getElementById('title');
   const titleFeedbackDiv = document.getElementById('titleFeedbackDiv');
@@ -24,7 +24,7 @@ function validateTitle(title) {
   }
 }
 
-function validateText(text) {
+function validateDraftText(text) {
   const textLen = text.length;
   const codeMirror = document.getElementsByClassName('CodeMirror')[0];
   const textFeedbackDiv = document.getElementById('textFeedbackDiv');
@@ -42,7 +42,7 @@ function validateText(text) {
   }
 }
 
-function validateTags(tags) {
+function validateDraftTags(tags) {
   const tagsLen = tags.length;
   const articleTags = document.getElementById('articleTags');
   const tagFeedbackDiv = document.getElementById('tagFeedbackDiv');

@@ -24,6 +24,7 @@
   <script src='/article-drafter/client/js/general/coreFunctions.js'></script>
   <script src='/article-drafter/client/js/general/usefulFunctions.js'></script>
   <script src='/article-drafter/client/js/general/validateArticleFunctions.js'></script>
+  <script src='/article-drafter/client/js/general/validateDraftFunctions.js'></script>
 </head>
 <body>
 
