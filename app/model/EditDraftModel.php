@@ -13,7 +13,7 @@ class EditDraftModel extends \db\Database {
 
   public function save ($title, $text, $tags) {
     if (!$this->validateSave($title, $text, $tags)) return false;
-    
+
     $date = new \DateTime();
     $timeStamp = $date->getTimestamp();
     $timeSaved = date('Y-m-d H:i:s', $timeStamp);
@@ -31,7 +31,15 @@ class EditDraftModel extends \db\Database {
   }
 
   public function delete () {
+    $query = "DELETE FROM articles
+    WHERE iduser = ? AND articleref = ?";
 
+    $stmt = ($this->conn)->prepare($query);
+    $stmt->bind_param('ss', $this->iduser, $this->ref);
+    $execution = $stmt->execute();
+    $stmt->close();
+
+    return $execution;
   }
 
   public function validateSave ($title, $text, $tags) {

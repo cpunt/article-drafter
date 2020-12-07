@@ -10,7 +10,7 @@ async function deleteArticle(articleRef) {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: `edit=${encodeURIComponent(JSON.stringify(data))}`
+      body: `editArticle=${encodeURIComponent(JSON.stringify(data))}`
     });
     const response = JSON.parse(await request.text());
 

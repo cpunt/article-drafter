@@ -47,6 +47,18 @@ class EditArticleModel extends \db\Database {
     return $execution ? $timeSaved : false;
   }
 
+  public function delete () {
+    $query = "DELETE FROM articles
+    WHERE iduser = ? AND articleref = ?";
+
+    $stmt = ($this->conn)->prepare($query);
+    $stmt->bind_param('ss', $this->iduser, $this->ref);
+    $execution = $stmt->execute();
+    $stmt->close();
+
+    return $execution;
+  }
+
   public function validateSave ($title, $text, $tags) {
     if (strlen($title) == 0 || strlen($title) > 100 ) return false;
     if (strlen($text) < 100 && strlen($text) > 10000) return false;

@@ -29,7 +29,7 @@ async function deleteDraft(ref) {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: `edit=${JSON.stringify(data)}`
+      body: `editDraft=${JSON.stringify(data)}`
     });
     const response = JSON.parse(await request.text());
 
