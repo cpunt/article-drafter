@@ -24,6 +24,63 @@ class HomeModel extends \db\Database {
     $result = $stmt->get_result();
     $stmt->close();
 
+    return $this->getResultOutput($result);
+  }
+
+  public function getLastPage () {
+    $query = "SELECT COUNT(articleref) FROM articles
+    WHERE articles.draft = 0";
+
+    $stmt = ($this->conn)->prepare($query);
+    $stmt->execute();
+    $stmt->bind_result($rows);
+    $stmt->fetch();
+    $stmt->close();
+
+    $rows = $rows == 0 ? 1 : $rows;
+    return ceil($rows / 5);
+  }
+
+  public function getTagsLastPage () {
+    $queryOrStatements = rtrim(str_repeat('OR JSON_CONTAINS(tags, ?) ', count($this->tags) - 1));
+    $types = str_repeat('s', count($this->tags));
+    $params = $this->encodeTags();
+    $query = "SELECT COUNT(*) FROM articles WHERE JSON_CONTAINS(tags, ?)$queryOrStatements
+    AND draft = 0;";
+
+    $stmt = ($this->conn)->prepare($query);
+    $stmt->bind_param($types, ...$params);
+    $stmt->execute();
+    $stmt->bind_result($rows);
+    $stmt->fetch();
+    $stmt->close();
+
+    $rows = $rows == 0 ? 1 : $rows;
+    return ceil($rows / 5);
+  }
+
+  public function getTagsArticles ($offset) {
+    $queryOrStatements = rtrim(str_repeat('OR JSON_CONTAINS(tags, ?) ', count($this->tags) - 1));
+    $types = str_repeat('s', count($this->tags));
+    $params = $this->encodeTags();
+    $query = "SELECT articles.articleref, articles.title, LEFT(articles.text, 500) AS text, articles.tags, userbase.username, articles.created
+    FROM articles
+    LEFT JOIN userbase ON articles.iduser = userbase.iduser
+    WHERE JSON_CONTAINS(tags, ?)$queryOrStatements
+    AND draft = 0
+    ORDER BY idarticles DESC
+    LIMIT 5 OFFSET $offset;";
+
+    $stmt = ($this->conn)->prepare($query);
+    $stmt->bind_param($types, ...$params);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+
+    return $this->getResultOutput($result);
+  }
+
+  public function getResultOutput ($result) {
     if($result->num_rows > 0) {
       while($row = $result->fetch_assoc()) {
         $row['editable'] = $this->username == $row['username'];
@@ -37,64 +94,13 @@ class HomeModel extends \db\Database {
     return [];
   }
 
-  public function getLastPage () {
-    $query = "SELECT COUNT(articleref) FROM articles
-    WHERE articles.draft = 0";
+  public function encodeTags () {
+    $params = [];
 
-    $stmt = ($this->conn)->prepare($query);
-    $stmt->execute();
-    $stmt->bind_result($rows);
-    $stmt->fetch();
-    $stmt->close();
-
-    if($rows == 0) {
-      $rows = 1;
+    foreach ($this->tags as $tag) {
+      array_push($params, json_encode($tag));
     }
 
-    return ceil($rows / 5);
+    return $params;
   }
-  /*
-  public function getTagsArticles ($offset) {
-    $qm = rtrim(str_repeat('?, ', count($this->tags)), ', ');
-    $params = array_merge([str_repeat('s', count($this->tags))], $this->tags);
-    $query = "SELECT DISTINCT articles.idarticles, articles.articleref, articles.title, articles.text, userbase.username, articles.created  FROM articles
-    LEFT JOIN userbase ON articles.iduser = userbase.iduser
-    LEFT JOIN tags ON articles.articleref = tags.articleref
-    WHERE tags.tag IN ($qm)
-    AND articles.draft = 0
-    ORDER BY articles.idarticles DESC
-    LIMIT 5 OFFSET $offset";
-
-    $stmt = ($this->conn)->prepare($query);
-    call_user_func_array(array($stmt, 'bind_param'), $params);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
-
-    return $result;
-  }
-
-  public function getTagsLastPage() {
-    $qm = rtrim(str_repeat('?, ', count($this->tags)), ', ');
-    $params = array_merge([str_repeat('s', count($this->tags))], $this->tags);
-    $query = "SELECT DISTINCT COUNT(articles.articleref)
-    FROM articles
-    LEFT JOIN tags ON articles.articleref = tags.articleref
-    WHERE tags.tag IN ($qm)
-    AND articles.draft = 0";
-
-    $stmt = ($this->conn)->prepare($query);
-    call_user_func_array(array($stmt, 'bind_param'), $params);
-    $stmt->execute();
-    $stmt->bind_result($rows);
-    $stmt->fetch();
-    $stmt->close();
-
-    if($rows == 0) {
-      $rows = 1;
-    }
-
-    return ceil($rows / 5);
-  }
-  */
 }

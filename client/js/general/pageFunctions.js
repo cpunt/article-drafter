@@ -1,30 +1,3 @@
-function getRequest() {
-  const page = getPage();
-  const user = page == 'profile' ? getUser(page) : '';
-  const tags = page == 'drafts' ? [] : getTags();
-  const pageNum = getPageNum();
-
-  const request = {
-    page: page,
-    user: user,
-    pageNum: pageNum,
-    tags: tags
-  };
-
-  return request;
-}
-
-function getUser(page) {
-  const url = window.location.pathname.split('/');
-  const index = url.indexOf(page);
-
-  if(index >= 0) {
-    return url[index+1];
-  } else {
-    return false;
-  }
-}
-
 function getPage() {
   const url = window.location.pathname.split('/');
   const index = url.indexOf('article-drafter');
@@ -75,37 +48,6 @@ function getPageNum() {
   }
 
   return 1;
-}
-
-function getTags() {
-  const editTag = document.getElementsByClassName('editTag');
-  const tags = [];
-
-  if(editTag) {
-    for(let i = 0; i < editTag.length; i++) {
-      tags.push(editTag[i].innerHTML);
-    }
-  }
-
-  return tags;
-}
-
-function tagsDivChange() {
-  const tag = document.getElementsByClassName('editTag');
-  const articleTags = document.getElementById('articleTags');
-  const articleBtn = document.getElementById('articleBtn');
-  const request = getRequest();
-  load(request);
-
-  if(tag && tag.length == 10) {
-    articleTags.disabled = true;
-    articleBtn.disabled = true;
-    removeTagEvent();
-  } else {
-    articleTags.disabled = false;
-    articleBtn.disabled = false;
-    addTagEvent();
-  }
 }
 
 function displayPaginationDiv(pagination) {
@@ -198,6 +140,33 @@ function displayPageNumbers(pagination) {
         pageNumbers[1].disabled = true;
         break;
     }
+  }
+}
+
+function getRequest() {
+  const page = getPage();
+  const user = page == 'profile' ? getUser(page) : '';
+  const tags = page == 'drafts' ? [] : getTags();
+  const pageNum = getPageNum();
+
+  const request = {
+    page: page,
+    user: user,
+    pageNum: pageNum,
+    tags: tags
+  };
+
+  return request;
+}
+
+function getUser(page) {
+  const url = window.location.pathname.split('/');
+  const index = url.indexOf(page);
+
+  if(index >= 0) {
+    return url[index+1];
+  } else {
+    return false;
   }
 }
 

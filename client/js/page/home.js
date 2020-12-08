@@ -1,7 +1,7 @@
 window.onload = function() {
-  // observe();
   load(getRequest());
   addTagEvent();
+  observe(searchTagsDivChange);
 }
 
 async function load(data) {

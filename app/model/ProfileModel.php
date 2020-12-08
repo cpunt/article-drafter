@@ -28,17 +28,7 @@ class ProfileModel extends \db\Database {
     $result = $stmt->get_result();
     $stmt->close();
 
-    if($result->num_rows > 0) {
-      while($row = $result->fetch_assoc()) {
-        $row['editable'] = $this->username == $row['username'];
-        $row['tags'] = $row['tags'] ? json_decode($row['tags']) : [];
-        $rows[] = $row;
-      }
-
-      return $rows;
-    }
-
-    return [];
+    return $this->getResultOutput($result);
   }
 
   public function getLastPage () {
@@ -54,58 +44,78 @@ class ProfileModel extends \db\Database {
     $stmt->fetch();
     $stmt->close();
 
-    if($rows == 0) {
-      $rows = 1;
-    }
-
+    $rows = $rows == 0 ? 1 : $rows;
     return ceil($rows / 5);
-  }
-  /*
-  public function getTagsArticles ($offset) {
-    $qm = rtrim(str_repeat('?, ', count($this->tags)), ', ');
-    $params = array_merge([str_repeat('s', count($this->tags) + 1)], $this->tags, [$this->userProfile]);
-    $query = "SELECT DISTINCT articles.idarticles, articles.articleref, articles.title, LEFT(articles.text, 500) AS text, userbase.username, articles.created
-    FROM articles
-    LEFT JOIN userbase ON articles.iduser = userbase.iduser
-    LEFT JOIN tags ON articles.articleref = tags.articleref
-    WHERE tags.tag IN ($qm)
-    AND userbase.username = ?
-    AND articles.draft = 0
-    ORDER BY articles.idarticles DESC
-    LIMIT 5 OFFSET $offset";
-
-    $stmt = ($this->conn)->prepare($query);
-    call_user_func_array(array($stmt, 'bind_param'), $params);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
-
-    return $result;
   }
 
   public function getTagsLastPage () {
-    $qm = rtrim(str_repeat('?, ', count($this->tags)), ', ');
-    $params = array_merge([str_repeat('s', count($this->tags) + 1)], $this->tags, [$this->userProfile]);
-    $query = "SELECT DISTINCT COUNT(articles.articleref)
-    FROM articles
+    $queryOrStatements = rtrim(str_repeat('OR JSON_CONTAINS(tags, ?) ', count($this->tags) - 1));
+    $types = str_repeat('s', count($this->tags) + 1);
+    $params = $this->encodeTags();
+    array_push($params, $this->profile);
+
+    $query = "SELECT COUNT(*) FROM articles
     LEFT JOIN userbase ON articles.iduser = userbase.iduser
-    LEFT JOIN tags ON articles.articleref = tags.articleref
-    WHERE tags.tag IN ($qm)
-    AND username = ?
-    AND articles.draft = 0";
+    WHERE JSON_CONTAINS(tags, ?)$queryOrStatements
+    AND draft = 0
+    AND username = ?;";
 
     $stmt = ($this->conn)->prepare($query);
-    call_user_func_array(array($stmt, 'bind_param'), $params);
+    $stmt->bind_param($types, ...$params);
     $stmt->execute();
     $stmt->bind_result($rows);
     $stmt->fetch();
     $stmt->close();
 
-    if($rows == 0) {
-      $rows = 1;
-    }
-
+    $rows = $rows == 0 ? 1 : $rows;
     return ceil($rows / 5);
   }
-  */
+
+  public function getTagsArticles ($offset) {
+    $queryOrStatements = rtrim(str_repeat('OR JSON_CONTAINS(tags, ?) ', count($this->tags) - 1));
+    $types = str_repeat('s', count($this->tags) + 1);
+    $params = $this->encodeTags();
+    array_push($params, $this->profile);
+
+    $query = "SELECT articles.articleref, articles.title, LEFT(articles.text, 500) AS text, articles.tags, userbase.username, articles.created
+    FROM articles
+    LEFT JOIN userbase ON articles.iduser = userbase.iduser
+    WHERE JSON_CONTAINS(tags, ?)$queryOrStatements
+    AND draft = 0
+    AND username = ?
+    ORDER BY idarticles DESC
+    LIMIT 5 OFFSET $offset;";
+
+    $stmt = ($this->conn)->prepare($query);
+    $stmt->bind_param($types, ...$params);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+
+    return $this->getResultOutput($result);
+  }
+
+  public function getResultOutput ($result) {
+    if($result->num_rows > 0) {
+      while($row = $result->fetch_assoc()) {
+        $row['editable'] = $this->username == $row['username'];
+        $row['tags'] = $row['tags'] ? json_decode($row['tags']) : [];
+        $rows[] = $row;
+      }
+
+      return $rows;
+    }
+
+    return [];
+  }
+
+  public function encodeTags () {
+    $params = [];
+
+    foreach ($this->tags as $tag) {
+      array_push($params, json_encode($tag));
+    }
+
+    return $params;
+  }
 }
