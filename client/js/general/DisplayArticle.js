@@ -6,7 +6,7 @@ class DisplayArticle {
       <div class='card-body p-3'>
         <div>
           <h3 class='d-inline'><u>${article.title}</u></h3>
-          <p class='d-inline info float-right mr-4'>Posted on ${article.created} by <a href='/article-drafter/profile/${article.username}'>${article.username}</a></p>
+          <p class='d-inline info float-right mr-4'>Posted on ${this.formatDate(article.created)} by <a href='/article-drafter/profile/${article.username}'>${article.username}</a></p>
         </div>
         <hr>`;
 
@@ -117,4 +117,14 @@ class DisplayArticle {
     return html;
   }
 
+  formatDate(timestamp)  {
+    const date = new Date(timestamp);
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+
+    if (day < 10) day = `0${day}`;
+    if (month < 10) month = `0${month}`;
+
+    return `${day}/${month}/${date.getFullYear()}`;
+  }
 }
