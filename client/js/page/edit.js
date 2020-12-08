@@ -12,6 +12,7 @@ window.onload = function () {
       setAutosave(callback);
     });
 
+    observe(editTagsDivChange);
     addTagEvent();
   }
 }

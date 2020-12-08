@@ -34,13 +34,14 @@ class EditArticleModel extends \db\Database {
     $date = new \DateTime();
     $timeStamp = $date->getTimestamp();
     $timeSaved = date('Y-m-d H:i:s', $timeStamp);
+    $encodedTags = json_encode($tags);
 
     $query = "UPDATE articles
     SET title = ?, text = ?, tags = ?, lastSaved = ?
     WHERE iduser = ? AND articleref = ?";
 
     $stmt = ($this->conn)->prepare($query);
-    $stmt->bind_param('ssssss', $title, $text, json_encode($tags), $timeSaved, $this->iduser, $this->ref);
+    $stmt->bind_param('ssssss', $title, $text, $encodedTags, $timeSaved, $this->iduser, $this->ref);
     $execution = $stmt->execute();
     $stmt->close();
 

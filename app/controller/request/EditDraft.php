@@ -16,7 +16,7 @@ class EditDraft {
 
       switch ($request['type']) {
         case 'save':
-          $response['lastSaved'] = $editDraftModel->save($request['title'], $request['text'], $request['tags'], $timeSaved);
+          $response['lastSaved'] = $editDraftModel->save($request['title'], $request['text'], $request['tags']);
           break;
         case 'delete':
           $response['deleted'] = $editDraftModel->delete();

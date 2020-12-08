@@ -1,5 +1,6 @@
 window.onload = function() {
   addTagEvent();
+  observe(editTagsDivChange);
 
   if (createDraft()) {
     setAutosave(saveDraft);

@@ -19,12 +19,13 @@ class CreateModel extends \db\Database {
     $timeStamp = $date->getTimestamp();
     $timeSaved = date('Y-m-d H:i:s', $timeStamp);
     $articleRef = 'ts' . $timeStamp . 'id' . uniqid();
+    $encodedTags = json_encode($this->tags);
 
     $query = "INSERT INTO articles(articleref, title, text, tags, iduser, draft, lastSaved)
     VALUES(?, ?, ?, ?, ?, 1, ?)";
 
     $stmt = ($this->conn)->prepare($query);
-    $stmt->bind_param('ssssss', $articleRef, $this->title, $this->text, json_encode($this->tags), $this->iduser, $timeSaved);
+    $stmt->bind_param('ssssss', $articleRef, $this->title, $this->text, $encodedTags, $this->iduser, $timeSaved);
     $execution = $stmt->execute();
     $stmt->close();
 
@@ -39,7 +40,7 @@ class CreateModel extends \db\Database {
     if (strlen($this->text) > 20000) return false;
     if (count($this->tags) > 5 || count($this->tags) != count(array_unique($this->tags))) return false;
 
-    foreach($this->ags as $tag) {
+    foreach($this->tags as $tag) {
       if (strlen($tag) < 2 || strlen($tag) > 20) return false;
       if (!ctype_alnum(str_replace(' ', '', $tag))) return false;
     }
