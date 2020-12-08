@@ -5,8 +5,9 @@ window.onload = function() {
     window.location = '/article-drafter/home/page/1';
   } else {
     document.title = `Profile- ${request['user']}`;
-    observe();
     load(request);
+    addTagEvent();
+    observe(searchTagsDivChange);
   }
 }
 

@@ -1,42 +1,23 @@
-function observe() {
-  const tagsDiv = document.getElementById('tagsDiv');
-  const config = {
-    attributes: true,
-    childList: true,
-    subtree: true
-  };
-
-  const observer = new MutationObserver(tagsDivChange);
-  observer.observe(tagsDiv, config);
-}
-
-function tagsDivChange() {
-  const tag = document.getElementsByClassName('tag');
-  const articleTags = document.getElementById('articleTags');
-  const articleBtn = document.getElementById('articleBtn');
-
-  if(tag && tag.length == 5) {
-    articleTags.disabled = true;
-    articleBtn.disabled = true;
-    removeTagEvent();
-  } else {
-    articleTags.disabled = false;
-    articleBtn.disabled = false;
-    addTagEvent();
-  }
-}
-
 function addTagEvent() {
-  document.getElementById('articleTags').addEventListener('keydown', tagEvent);
+  document.getElementById('articleTags').addEventListener('keydown', (e) => {
+    if(e.keyCode == 13) {
+      addTag();
+    }
+  });
 }
 
-function removeTagEvent() {
-  document.getElementById('articleTags').removeEventListener('keydown', tagEvent);
-}
+function displayTags() {
+  const collapse = document.getElementById('collapse');
+  const collapseArrow = document.getElementById('collapseArrow');
 
-function tagEvent(e) {
-  if(e.keyCode == 13) {
-    addTag();
+  if(collapse.style.display == 'block') {
+    collapse.style.display = '';
+    collapseArrow.classList.add('down');
+    collapseArrow.classList.remove('up');
+  } else {
+    collapse.style.display = 'block';
+    collapseArrow.classList.remove('down');
+    collapseArrow.classList.add('up');
   }
 }
 
@@ -45,7 +26,6 @@ function addTag() {
   const headingOne = document.getElementById('headingOne');
   const articleTags = document.getElementById('articleTags');
   const tagName = articleTags.value.trim();
-
   reset();
 
   if(validateTag(tagName)) {
@@ -115,22 +95,7 @@ function reset() {
   articleTags.classList.remove('is-valid');
 }
 
-function displayTags() {
-  const collapse = document.getElementById('collapse');
-  const collapseArrow = document.getElementById('collapseArrow');
-
-  if(collapse.style.display == 'block') {
-    collapse.style.display = '';
-    collapseArrow.classList.add('down');
-    collapseArrow.classList.remove('up');
-  } else {
-    collapse.style.display = 'block';
-    collapseArrow.classList.remove('down');
-    collapseArrow.classList.add('up');
-  }
-}
-
-function observe() {
+function observe(callback) {
   const tagsDiv = document.getElementById('tagsDiv');
   const config = {
     attributes: true,
@@ -138,6 +103,48 @@ function observe() {
     subtree: true
   };
 
-  const observer = new MutationObserver(tagsDivChange);
+  const observer = new MutationObserver(callback);
   observer.observe(tagsDiv, config);
+}
+
+function editTagsDivChange () {
+  const tag = document.getElementsByClassName('tag');
+  const articleTags = document.getElementById('articleTags');
+  const articleBtn = document.getElementById('articleBtn');
+
+  if(tag && tag.length == 5) {
+    articleTags.disabled = true;
+    articleBtn.disabled = true;
+  } else {
+    articleTags.disabled = false;
+    articleBtn.disabled = false;
+  }
+}
+
+function searchTagsDivChange() {
+  const tag = document.getElementsByClassName('editTag');
+  const articleTags = document.getElementById('articleTags');
+  const articleBtn = document.getElementById('articleBtn');
+  load(getRequest());
+
+  if(tag && tag.length == 10) {
+    articleTags.disabled = true;
+    articleBtn.disabled = true;
+  } else {
+    articleTags.disabled = false;
+    articleBtn.disabled = false;
+  }
+}
+
+function getTags() {
+  const editTag = document.getElementsByClassName('editTag');
+  const tags = [];
+
+  if(editTag) {
+    for(let i = 0; i < editTag.length; i++) {
+      tags.push(editTag[i].innerHTML);
+    }
+  }
+
+  return tags;
 }
